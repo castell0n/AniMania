@@ -1,87 +1,139 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Elementos del DOM
-    const grid = document.querySelector(".grid");
     const searchInput = document.querySelector(".search");
     const modalSearch = document.getElementById("modalSearch");
+    const grid = modalSearch.querySelector(".grid");
+    const categoryButtons = document.querySelectorAll(".btnList");
 
-    // Mensaje de no resultados
-    const noResultsMessage = document.createElement("h2");
+    // Crear mensaje de "No se encontraron resultados"
+    const noResultsMessage = document.createElement("p");
     noResultsMessage.textContent = "No se encontraron resultados";
-    noResultsMessage.className = "categoryTitle";
     noResultsMessage.style.display = "none";
+    noResultsMessage.classList.add("noResults");
     modalSearch.appendChild(noResultsMessage);
 
-    // Obtener animes filtrados por categoría
+    // Referencias a Firebase
     const aniManiaRef = db.collection("AniMania").doc("580qMp6ggI7ixvpiMADy");
     const animesRef = aniManiaRef.collection("animes");
 
-    // Obtener los animes y filtrar los datos necesarios
-    animesRef.get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            const data = doc.data(); // Datos completos
-            const anime = {
-                id: doc.id, // ID del documento
-                portada: data.img, // Imagen del anime
-                titulo: data.title, // Título
-                status: data.details?.status || "Desconocido", // Estado (Finalizado, En emisión)
-                fecha_estreno: data.details?.release ? data.details.release.replace(/-/g, '/') : "Desconocido"
-            };
+    // Función para cargar animes por categoría
+    function cargarAnimesPorCategoria(category) {
+        // Limpiar grid y mensajes previos
+        grid.innerHTML = "";
+        noResultsMessage.style.display = "none";
+        grid.style.display = "grid";
+        categoryButtons.forEach(btn => btn.classList.remove("active"));
 
-            // Crear la tarjeta de anime
-            const card = document.createElement("div");
-            card.classList.add("card");
-            card.setAttribute("data-id", anime.id);
+        // Marcar botón activo (en caso de que haya animes)
+        const activeButton = Array.from(categoryButtons).find(btn => btn.getAttribute("data-category") === category);
+        if (activeButton) activeButton.classList.add("active");
 
-            card.innerHTML = `
-                <img src="${anime.portada}" alt="${anime.titulo}">
-                <div class="info">
-                    <h2>${anime.titulo}</h2>
-                    <div class="details">
-                        <span class="dataStatus">${anime.status}</span>
-                        <span class="timestamp">${anime.fecha_estreno}</span>
-                    </div>
-                </div>
-            `;
+        // Obtener IDs de animes de localStorage
+        const ids = JSON.parse(localStorage.getItem(category));
 
-            // Redirigir al detalle
-            card.addEventListener("click", () => {
-                const animeId = encodeURIComponent(anime.id);
-                // window.location.href = `../view/index.html?dtId=${encodeURIComponent(anime.id)}`;
-                localStorage.setItem("dtId", animeId); // Guardar el ID del anime en localStorage
-                window.location.href = `go:view`;
-            });
+        // Mostrar mensaje si no hay animes en la categoría
+        if (!ids || ids.length === 0) {
+            grid.innerHTML = "";  // Limpiar grid
+            noResultsMessage.style.display = "block";  // Mostrar mensaje
+            return;
+        }
 
-            grid.appendChild(card);
+        // Cargar animes de Firebase según los IDs guardados
+        ids.forEach(id => {
+            animesRef.doc(id).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        const anime = {
+                            id: doc.id,
+                            portada: data.img,
+                            titulo: data.title,
+                            status: data.details?.status || "Desconocido",
+                            fecha_estreno: data.details?.release ? data.details.release.replace(/-/g, '/') : "Desconocido"
+                        };
+
+                        // Crear card de anime
+                        const card = document.createElement("div");
+                        card.classList.add("card");
+                        card.setAttribute("data-id", anime.id);
+
+                        card.innerHTML = `
+                            <img src="${anime.portada}" alt="${anime.titulo}">
+                            <div class="info">
+                                <h2>${anime.titulo}</h2>
+                                <div class="details">
+                                    <span class="dataStatus">${anime.status}</span>
+                                    <span class="timestamp">${anime.fecha_estreno}</span>
+                                </div>
+                            </div>
+                        `;
+
+                        // Redireccionar al hacer click en card
+                        card.addEventListener("click", () => {
+                            const animeId = encodeURIComponent(anime.id);
+                            localStorage.setItem("dtId", animeId);
+                            window.location.href = `go:view`;
+                        });
+
+                        // Agregar card al grid
+                        grid.appendChild(card);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al obtener anime:", error);
+                });
         });
+    }
 
-        // Funcionalidad de búsqueda
-        searchInput.addEventListener("input", (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            filterCards(searchTerm);
+    // Asignar evento a botones de categoría
+    categoryButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const category = button.getAttribute("data-category");
+            cargarAnimesPorCategoria(category);
         });
-
-    }).catch((error) => {
-        console.error("Error:", error);
-        noResultsMessage.textContent = "Error al cargar los datos";
-        noResultsMessage.style.display = "flex";
-        grid.style.display = "none";
     });
 
-    // Función para filtrar cards
-    function filterCards(searchTerm) {
+    // Cargar por defecto categoría "Pausados" y marcar el botón correspondiente como activo
+    const defaultCategory = "Pausados";
+    const defaultButton = Array.from(categoryButtons).find(button => button.getAttribute("data-category") === defaultCategory);
+    if (defaultButton) {
+        defaultButton.classList.add("active");
+    }
+    cargarAnimesPorCategoria(defaultCategory);
+
+    // Buscar en tiempo real en las cards
+    searchInput.addEventListener("input", function () {
+        const searchText = searchInput.value.toLowerCase().trim();
+        filterCards(searchText);
+    });
+
+    function filterCards(searchText) {
         const cards = grid.querySelectorAll(".card");
-        let hasMatches = false;
+        let found = false;
 
         cards.forEach(card => {
             const title = card.querySelector("h2").textContent.toLowerCase();
             const date = card.querySelector(".timestamp").textContent.toLowerCase();
-            const match = title.includes(searchTerm) || date.includes(searchTerm);
-            
-            card.style.display = match ? "block" : "none";
-            if (match) hasMatches = true;
+
+            if (title.includes(searchText) || date.includes(searchText)) {
+                card.style.display = "block";
+                found = true;
+            } else {
+                card.style.display = "none";
+            }
         });
 
-        noResultsMessage.style.display = hasMatches ? "none" : "block";
-        grid.style.display = hasMatches ? "grid" : "none";
+        if (cards.length === 0) {
+            // No hay cards cargadas en esta categoría
+            noResultsMessage.style.display = "none";
+            grid.style.display = "grid";
+        } else if (!found) {
+            // Hay cards pero ninguna coincide con la búsqueda
+            noResultsMessage.style.display = "block";
+            grid.style.display = "none";
+        } else {
+            // Hay coincidencias
+            noResultsMessage.style.display = "none";
+            grid.style.display = "grid";
+        }
     }
 });
