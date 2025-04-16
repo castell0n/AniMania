@@ -45,6 +45,7 @@
     background-color: #1a1a1a;
     overflow: hidden;
 }
+
 .categoryList .btnList {
     width: 100%;
     height: 100%;
@@ -52,7 +53,6 @@
     color: #ffffff;
     font-weight: bold;
     border-radius: 0.5em;
-
 }
 
 .categoryList .btnList.active {
@@ -62,14 +62,10 @@
 
 /* cards */
 .modalSearch {
-    padding: 1em;
+    max-width: 100%;
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    background-color: #000000;
-    overflow: auto;
+    flex-direction: column;
+    padding: 1em;
 }
 
 .modalSearch .grid {
@@ -85,31 +81,11 @@
     transition: transform .2s, filter .2s;
 }
 
-.modalSearch .grid .card .deleteBtn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #ff4d4d80;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 14px;
-    border-radius: 0 0 0 0.5em;
-}
-
-.modalSearch .grid .card .deleteBtn:hover {
-    background-color: #cc0000;
-}
-
-
 .modalSearch .grid .card img {
     width: 100%;
-    aspect-ratio: .8;
+    aspect-ratio: 5/7;
     display: block;
-    transition: .2s ease-in;
     object-fit: cover;
-    aspect-ratio: 5 / 7;
 }
 
 .modalSearch .grid .card .info {
@@ -136,16 +112,15 @@
     color: #fff;
 }
 
-.modalSearch .grid .card .info .details {
-    font-size: .8em;
+.modalSearch .noResults {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
+    height: auto;
+    display: none;
     align-items: center;
-}
-
-.modalSearch .grid .card .info .details .dataStatus,
-.modalSearch .grid .card .info .details .timestamp {
-    font-weight: bolder;
-    padding: .5em .5em .5em 0;
+    justify-content: center;
+    font-size: 1em;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+    padding: 1em;
 }
