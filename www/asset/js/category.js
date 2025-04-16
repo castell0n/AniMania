@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // const categoria = decodeURIComponent(urlParams.get('dtcat')) || "Todas";
 
     const categoria = localStorage.getItem("dtcat") || "Todas";
+    alert(`Categoría seleccionada: ${categoria}`);
 
     // Mensaje de no resultados
     const noResultsMessage = document.createElement("h2");
