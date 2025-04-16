@@ -52,9 +52,10 @@ const elemens = {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const params = new URLSearchParams(window.location.search);
-    const animeId = params.get("dtId");
+    // const params = new URLSearchParams(window.location.search);
+    // const animeId = params.get("dtId");
 
+    const animeId = localStorage.getItem("dtId");
     if (!animeId) {
         console.error("No se encontró el ID del anime en la URL");
         return;
