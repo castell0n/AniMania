@@ -130,16 +130,19 @@ function loadData(datadetails) {
     // Asignar título del ending
     elemens.edng.textContent = endings.title;
 
-    localStorage.removeItem("dtcat"); // Limpiar la categoría anterior
     categories.forEach(cat => {
-        const badge = document.createElement('a');
+        const badge = document.createElement('button');
         badge.className = 'lnkgnr';
-        // badge.href = `../category/index.html?dtcat=${cat}`;
-        localStorage.setItem("dtcat", cat); // Guardar la categoría en localStorage
-        badge.setAttribute("href", `go:category`); // Redirigir a la página de categorías
         badge.textContent = cat || '...';
+    
+        badge.addEventListener('click', () => {
+            localStorage.removeItem("dtcat"); // Limpiar la categoría anterior
+            localStorage.setItem("dtcat", cat); // Guardar la categoría en localStorage
+            window.location.href = 'go:category'; // Redirigir a la página de categorías
+        });
+    
         elemens.cntgnr.appendChild(badge);
-    });
+    });    
 
     const relatedDocumentId = datadetails.relatedDocumentId;
     if (relatedDocumentId === "") {
