@@ -1,0 +1,168 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --success-color: #27ae60;
+    --error-color: #e74c3c;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: #f5f6fa;
+    padding: 20px;
+}
+
+.admin-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #eee;
+}
+
+.form-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.category-scroll {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.category-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.category-scroll button {
+    margin-right: 10px;
+}
+
+.category-btn, .status-btn {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    background: #f8f9fa;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.category-btn.selected, .status-btn.selected {
+    background: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+}
+
+.drop-zone {
+    border: 2px dashed #ddd;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.drop-zone:hover {
+    border-color: var(--secondary-color);
+}
+
+.image-preview {
+    max-width: 260px;
+    margin-top: 15px;
+    border: 2px solid #eee;
+    border-radius: 4px;
+    display: none;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.add-button {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-top: 5px;
+}
+
+.add-button:hover {
+    text-decoration: underline;
+}
+
+.song-input {
+    margin-bottom: 5px;
+}
+
+.submit-btn {
+    background: var(--success-color);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+.submit-btn:hover {
+    background: #219a52;
+}
+
+/* Validación de errores */
+input:invalid, textarea:invalid {
+    border-color: var(--error-color);
+}
+
+input:focus, textarea:focus {
+    outline: 2px solid var(--secondary-color);
+    outline-offset: 2px;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <title>Agregar Episodio</title>
+    <style>
+        /* Estilos para el área de drop */
+        .drop-zone {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        
+        .drop-zone.dragover {
+            border-color: #4CAF50;
+            background-color: #f8f8f8;
+        }
+        
+        #imagePreview {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            display: none;
+            margin-top: 10px;
+        }
+        
+        #imagePreview.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <form id="episodioForm">
+        <div class="drop-zone" id="dropZone">
+            <div id="previewContainer">
+                <img id="imagePreview" src="" alt="Vista previa del banner">
+            </div>
+            <p>Arrastra aquí el banner (1080x700px) o haz clic para seleccionar</p>
+        </div>
+
+        <!-- Input oculto para almacenar la imagen en base64 -->
+        <input type="hidden" id="imageBase64" required>
+        
+        <!-- Input de archivo oculto -->
+        <input type="file" id="episodeImage" accept="image/*" hidden>
+
+        <label for="episodeLink">Enlace del episodio:</label>
+        <input type="text" id="episodeLink" name="link" required>
+
+        <button type="submit">Agregar Episodio</button>
+    </form>
+
+    <script src="../asset/js/key.js"></script>
+    <script src="newcap.js"></script>
+
+</body>
+</html>

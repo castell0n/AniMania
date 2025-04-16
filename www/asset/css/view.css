@@ -1,0 +1,405 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+}
+
+body {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+
+.dataCard {
+    padding: 1em;
+}
+
+.dataCard .ttanm {
+    position: relative;
+    font-size: 1.2em;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.65em;
+    width: 100%;
+    max-height: 2.5em;
+    color: #fff;
+    padding: 0.5em;
+    padding-left: 1em;
+    margin-bottom: 0.5em;
+}
+
+.dataCard .ttanm::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0.2em;
+    height: calc(100% - 0.8em);
+    background-color: #ffffff;
+    transform: translatey(-0.3em);
+}
+
+.dataCard .cprdd {
+    margin-bottom: 1em;
+    display: flex;
+    gap: 1em;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.dataCard .cprdd .cprd {
+    width: 20em;
+}
+
+.dataCard .cprdd .cprd .prd {
+    position: relative;
+    width: 100%;
+    height: 15em;
+    border-radius: 0.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.dataCard .cprdd .cprd .prd .statusBadge {
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    width: 1.8em;
+    height: 0.8em;
+    background-color: #ff00009e;
+    border-radius: 0.5em;
+}
+
+.dataCard .cprdd .cprd .prd .statusBadge.emision { background-color: #28a745; }
+.dataCard .cprdd .cprd .prd .statusBadge.finalizado { background-color: #dc3545; }
+.dataCard .cprdd .cprd .prd .statusBadge.proximo-estreno { background-color: #ffc107; }
+
+.dataCard .cprdd .cprd .prd .portada {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dataCard .cprdd .cprd .btnTrailer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1em;
+    padding: 0.5em;
+    color: #ffffff;
+    background-color: #161616;
+    font-weight: bold;
+}
+
+
+.dataCard .cprdd .cntdt {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.38em;
+    align-items: flex-start;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.dataCard .cprdd .cntdt .ttstr {
+    position: relative;
+    font-size: 0.84em;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.65em;
+    width: 100%;
+    max-height: 5em;
+    color: #ffffff;
+}
+
+.dataCard .cprdd .cntdt .ttstr .etlnk {
+    display: contents;
+}
+
+.dataCard .cprdd .cntdt .ttstr:nth-child(1),
+.dataCard .cprdd .cntdt .ttstr:nth-child(2),
+.dataCard .cprdd .cntdt .ttstr:nth-child(3) {
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+}
+
+.dataCard .cprdd .cntdt .ttstr .ttp {
+    color: #686868;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.dataCard .dtsnp .agrlts {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    width: 100%;
+    height: 2.5em;
+    overflow: hidden;
+    padding: 0 0.2em;
+    margin-bottom: 1em;
+}
+
+.dataCard .dtsnp .agrlts .itmlst {
+    color: #ffffff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: solid #161616 0.18em;
+    background-color: transparent;
+    border-radius: 0.5em;
+}
+/* Estilo para el botón seleccionado */
+.dataCard .dtsnp .agrlts .itmlst.selected {
+    border: solid #388E3C80 0.18em; /* Borde verde */
+}
+
+
+
+
+
+
+.dataCard .dtsnp .cntdtgnr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5em;
+    width: 100%;
+}
+
+.dataCard .dtsnp .cntdtgnr .dtnam {
+    position: relative;
+    font-size: 1em;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.65em;
+    width: 100%;
+    height: 2em;
+    color: #ffffff;
+}
+
+.dataCard .dtsnp .cntdtgnr .dtnam i {
+    margin-right: 0.5em;
+    color: #096fff;
+}
+
+.dataCard .dtsnp .cntdtgnr .gbrcnt {
+    position: relative;
+    padding: 0.5em;
+    width: 100%;
+    border-radius: 0.5em 0.5em 0 0;
+    border: solid #161616 0.18em;
+    border-bottom: 0;
+}
+.dataCard .dtsnp .cntdtgnr .gbrcnt .cnt {
+    padding: 0.5em 0.8em;
+    width: 100%;
+    border-radius: 0.5em 0.5em 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5em;
+    overflow: auto;
+}
+.dataCard .dtsnp .cntdtgnr .gbrcnt .cnt::-webkit-scrollbar {
+    display: none;
+}
+
+
+.dataCard .dtsnp .cntdtgnr .gbrcnt .cnt .lnkgnr {
+    color: #ffffff;
+    padding: 0 0.5em;
+}
+
+.dataCard .dtsnp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.dataCard .dtsnp .cntsnp {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 0.5em;
+    border: solid #161616 0.18em;
+    align-items: flex-start;
+}
+
+.dataCard .dtsnp .cntsnp .ttsnp {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.dataCard .dtsnp .cntsnp .txtsnp {
+    position: relative;
+    font-size: 0.85em;
+    -webkit-line-clamp: 5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.2em;
+    width: 100%;
+    max-height: 10em;
+    color: #ffffff;
+}
+
+
+.dataCard .dtsnp .cntbttalts {
+    padding: 0.5em;
+    width: 100%;
+    border: solid #161616 0.18em;
+    border-top: 0;
+}
+.dataCard .dtsnp .cntbttalts .cntb {
+    padding: 0.5em;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+    gap: 1em;
+    width: 100%;
+}
+.dataCard .dtsnp .cntbttalts .cntb .bttalts {
+    padding: 0.5em;
+    color: #ffffff;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: solid #161616 0.18em;
+    border-radius: 0.5em;
+}
+
+
+.dataCard .dtsnp .dtaratingncnt {
+    width: 100%;
+    padding: 1em;
+    border: solid #161616 0.18em;
+    border-radius: 0 0 0.5em 0.5em;
+    border-top: 0;
+}
+.dataCard .dtsnp .dtaratingncnt .dtarating {
+    width: 100%;
+    font-size: 1em;
+}
+
+
+
+.dataCard .cntcaps {
+    width: 100%;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    grid-gap: 1em;
+    overflow: hidden;
+}
+
+.dataCard .titlecaps {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 0.2em;
+    overflow: hidden;
+}
+
+.dataCard .listcap {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+    grid-gap: 1em;
+    overflow: hidden;
+}
+
+.dataCard .listcap .itemcard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 6em;
+    grid-gap: 1em;
+    overflow: hidden;
+}
+
+.dataCard .listcap .itemcard .image {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.dataCard .listcap .itemcard .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dataCard .listcap .itemcard .details {
+    width: 25em;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    overflow: hidden;
+}
+.dataCard .listcap .itemcard .details h2,
+.dataCard .listcap .itemcard .details p {
+    font-size: 1.2em;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.65em;
+    width: 100%;
+    max-height: 2.5em;
+    color: #fff;
+}
+
+.dataCard .listcap .itemcard .details p {
+    font-size: 1em;
+}

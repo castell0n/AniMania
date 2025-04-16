@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Anime - Panel Admin</title>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <link rel="stylesheet" href="newanime.css">
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Agregar Nuevo Anime</h1>
+        <form id="animeForm" class="anime-form">
+            <!-- Sección Principal -->
+            <div class="form-section">
+                <h2>Información Básica</h2>
+                <div class="form-group">
+                    <label for="animeTitle">Título del Anime*</label>
+                    <input type="text" id="animeTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Categorías</label>
+                    <div class="category-scroll">
+                        <button type="button" class="category-btn" data-category="Acción">Acción</button>
+                        <button type="button" class="category-btn" data-category="Aventura">Aventura</button>
+                        <button type="button" class="category-btn" data-category="Comedia">Comedia</button>
+                        <button type="button" class="category-btn" data-category="Drama">Drama</button>
+                        <button type="button" class="category-btn" data-category="Fantasía">Fantasía</button>
+                        <button type="button" class="category-btn" data-category="Ciencia Ficción">Ciencia Ficción</button>
+                        <button type="button" class="category-btn" data-category="Romance">Romance</button>
+                        <button type="button" class="category-btn" data-category="Suspenso">Suspenso</button>
+                        <button type="button" class="category-btn" data-category="Misterio">Misterio</button>
+                        <button type="button" class="category-btn" data-category="Horror">Horror</button>
+                        <button type="button" class="category-btn" data-category="Terror Psicológico">Terror Psicológico</button>
+                        <button type="button" class="category-btn" data-category="Shonen">Shonen</button>
+                        <button type="button" class="category-btn" data-category="Shojo">Shojo</button>
+                        <button type="button" class="category-btn" data-category="Seinen">Seinen</button>
+                        <button type="button" class="category-btn" data-category="Josei">Josei</button>
+                        <button type="button" class="category-btn" data-category="Slice of Life">Slice of Life</button>
+                        <button type="button" class="category-btn" data-category="Magia">Magia</button>
+                        <button type="button" class="category-btn" data-category="Superpoderes">Superpoderes</button>
+                        <button type="button" class="category-btn" data-category="Mecha">Mecha</button>
+                        <button type="button" class="category-btn" data-category="Deporte">Deporte</button>
+                        <button type="button" class="category-btn" data-category="Aventura Espacial">Aventura Espacial</button>
+                        <button type="button" class="category-btn" data-category="Bailarinas">Bailarinas</button>
+                        <button type="button" class="category-btn" data-category="Historia">Historia</button>
+                        <button type="button" class="category-btn" data-category="Vampiros">Vampiros</button>
+                        <button type="button" class="category-btn" data-category="Lucha Libre">Lucha Libre</button>
+                        <button type="button" class="category-btn" data-category="Boys Love (BL)">Boys Love (BL)</button>
+                        <button type="button" class="category-btn" data-category="Girls Love (GL)">Girls Love (GL)</button>
+                        <button type="button" class="category-btn" data-category="Eroge">Eroge</button>
+                        <button type="button" class="category-btn" data-category="Tragedia">Tragedia</button>
+                        <button type="button" class="category-btn" data-category="Parodia">Parodia</button>
+                        <button type="button" class="category-btn" data-category="Survival">Survival</button>
+                        <button type="button" class="category-btn" data-category="Samuráis">Samuráis</button>
+                        <button type="button" class="category-btn" data-category="Ficción Histórica">Ficción Histórica</button>
+                        <button type="button" class="category-btn" data-category="Psicológico">Psicológico</button>                        
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Portada* (260x370px)</label>
+                    <div class="drop-zone" id="dropZone">
+                        <span>Arrastra la imagen aquí o haz clic</span>
+                        <input type="file" id="animeImage" accept="image/*">
+                        <input type="hidden" id="imageBase64">
+                    </div>
+                    <img id="imagePreview" class="image-preview">
+                </div>
+            </div>
+            <!-- Sección Detalles -->
+            <div class="form-section">
+                <h2>Detalles del Anime</h2>
+                <div class="form-group">
+                    <label>Estado*</label>
+                    <div class="status-buttons">
+                        <button type="button" class="status-btn" data-status="Emisión">En Emisión</button>
+                        <button type="button" class="status-btn" data-status="Finalizado">Finalizado</button>
+                        <button type="button" class="status-btn" data-status="Estreno">Próximo Estreno</button>
+                    </div>
+                    <input type="hidden" id="animeStatus" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="animeReleaseDate">Fecha Estreno*</label>
+                        <input type="date" id="animeReleaseDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="animeEndDate">Fecha Finalización</label>
+                        <input type="date" id="animeEndDate">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="animeDuration">Duración (minutos)</label>
+                        <input type="number" id="animeDuration" min="1" max="120">
+                    </div>
+                    <div class="form-group">
+                        <label for="animeLanguage">Idioma*</label>
+                        <select id="animeLanguage" required>
+                            <option value="Japonés" selected>Japonés</option>
+                            <option value="Inglés">Inglés</option>
+                            <option value="Español">Español</option>
+                            <option value="Francés">Francés</option>
+                            <option value="Alemán">Alemán</option>
+                            <option value="Chino">Chino</option>
+                            <option value="Coreano">Coreano</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="animeTrailer">Trailer (YouTube)</label>
+                    <input type="url" id="animeTrailer" placeholder="https://youtube.com/embed/...">
+                </div>
+                <div class="form-group">
+                    <label for="animeRating">Clasificación</label>
+                    <input type="text" id="animeRating" placeholder="Ej: PG-13, R+">
+                </div>
+                <div class="form-group checkbox-group">
+                    <div id="tvOptions">
+                        <label for="animeTVType">Tipo de serie de TV</label>
+                        <select id="animeTVType">
+                            <option value="Serie de TV" selected>Serie de TV</option>
+                            <option value="Serie de streaming">Serie de streaming</option>
+                            <option value="Película">Película</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="animeDirector">Director</label>
+                    <input type="text" id="animeDirector">
+                </div>
+                <div class="form-group">
+                    <label for="animeGuion">Guion</label>
+                    <input type="text" id="animeGuion">
+                </div>
+                <div class="form-group">
+                    <label for="animeStudio">Studio</label>
+                    <input type="text" id="animeStudio">
+                </div>
+                <div class="form-group">
+                    <label for="animeCaps">Episodios</label>
+                    <input type="number" id="animeCaps">
+                </div>
+                <div class="form-group">
+                    <label for="relatedDocumentId">ID de documento relacionado</label>
+                    <input type="text" id="relatedDocumentId">
+                </div>
+            </div>
+            <!-- Sección Multimedia -->
+            <div class="form-section">
+                <h2>Música</h2>
+                <div class="form-group">
+                    <label>Openings</label>
+                    <div id="openingsContainer">
+                        <input type="text" class="song-input" placeholder="Título del opening">
+                        <input type="url" class="song-input" placeholder="Enlace del opening">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Endings</label>
+                    <div id="endingsContainer">
+                        <input type="text" class="song-input" placeholder="Título del ending">
+                        <input type="url" class="song-input" placeholder="Enlace del ending">
+                    </div>
+                </div>
+            </div>
+            <!-- Sección Descripción -->
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="animeDescription">Descripción*</label>
+                    <textarea id="animeDescription" required></textarea>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn">Guardar Anime</button>
+        </form>
+    </div>
+    <script src="../asset/js/key.js"></script>
+    <script src="newanime.js"></script>
+</body>
+</html>

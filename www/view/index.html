@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../asset/css/view.css">
+
+    <!-- Asegúrate de incluir Firebase en tu HTML -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    
+    <title>Document</title>
+</head>
+<body>
+
+    <main id="dataCard" class="dataCard">
+        <h1 id="ttanm" class="ttanm">Solo Leveling S2</h1>
+        <div class="cprdd">
+            <div class="cprd">
+                <div class="prd">
+                    <span id="statusBadge" class="statusBadge"></span>
+                    <img id="portada" class="portada" src="https://placehold.co/260x370" alt="">
+                </div>
+                <a id="btnTrailer" href="" target="_blank" class="btnTrailer">Trailer</a>
+            </div>
+            
+            <div class="cntdt">
+                <strong class="ttstr">Director:
+                    <!-- <a id="dictrlnk" class="etlnk" href="" target="_blank"> -->
+                        <p id="dictr" class="ttp">...</p>
+                    <!-- </a> -->
+                </strong>
+                <strong class="ttstr">Guion:
+                    <!-- <a class="guionlnk" href="" target="_blank"> -->
+                        <p id="guion" class="ttp">...</p>
+                    <!-- </a>: -->
+                </strong>
+                <strong class="ttstr">Studio:
+                    <!-- <a id="stdiolnk" class="etlnk" href="" target="_blank"> -->
+                        <p id="stdio" class="ttp">...</p>
+                    <!-- </a> -->
+                </strong>
+                <strong class="ttstr">Opening:
+                    <a id="opninlnk" class="etlnk" href="" target="_blank">
+                        <p id="opnin" class="ttp">...</p>
+                    </a>
+                </strong>
+                <strong class="ttstr">Ending:
+                    <a id="ednglnk" class="etlnk" href="" target="_blank">
+                        <p id="edng" class="ttp">...</p>
+                    </a>
+                </strong>
+            </div>
+        </div>
+
+        <div class="dtsnp">
+            <div class="agrlts">
+                <button class="itmlst" data-category="Pausados">Pausados</button>
+                <button class="itmlst" data-category="Pendientes">Pendientes</button>
+                <button class="itmlst" data-category="Finalizados">Finalizados</button>
+            </div>
+
+            <div class="cntdtgnr">
+                <a id="dtnam" class="dtnam" href="index.html"><i class="fa-solid fa-chevron-right"></i>...</a>
+                <div class="gbrcnt">
+                    <div id="cntgnr" class="cnt"></div>
+                </div>
+            </div>
+
+            <div class="cntsnp">
+                <h2 class="ttsnp">Sinopsis:</h2>
+                <p id="txtsnp" class="txtsnp">...</p>
+            </div>
+            <div class="cntbttalts">
+                <div class="cntb">
+                    <span id="dtatv" class="bttalts">...</span>
+                    <span id="dtepis" class="bttalts">...</span>
+                    <span id="dtacap" class="bttalts">...</span>
+                    <span id="dtamin" class="bttalts">...</span>
+                    <span id="dtaini" class="bttalts">...</span>
+                    <span id="dtafin" class="bttalts">...</span>
+                </div>
+            </div>
+
+            <div class="dtaratingncnt">
+                <h2 id="dtarating" class="dtarating">...</h2>
+            </div>
+        </div>
+
+        <div class="cntcaps">
+            <h2 class="titlecaps">Capitulos:
+                <span class="ttstr" id="ttstr"></span></h2>
+            <div class="listcap" id="listcap"></div>
+        </div>
+    </main>
+
+    <script src="../asset/js/key.js"></script>
+    <script src="../asset/js/view.js"></script>
+    
+</body>
+</html>
