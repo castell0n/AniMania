@@ -133,7 +133,9 @@ function loadData(datadetails) {
     categories.forEach(cat => {
         const badge = document.createElement('a');
         badge.className = 'lnkgnr';
-        badge.href = `../category/index.html?dtcat=${cat}`;
+        // badge.href = `../category/index.html?dtcat=${cat}`;
+        localStorage.setItem("dtcat", cat); // Guardar la categoría en localStorage
+        badge.setAttribute("href", `go:category`); // Redirigir a la página de categorías
         badge.textContent = cat || '...';
         elemens.cntgnr.appendChild(badge);
     });
