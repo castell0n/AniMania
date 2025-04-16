@@ -130,6 +130,7 @@ function loadData(datadetails) {
     // Asignar título del ending
     elemens.edng.textContent = endings.title;
 
+    localStorage.removeItem("dtcat"); // Limpiar la categoría anterior
     categories.forEach(cat => {
         const badge = document.createElement('a');
         badge.className = 'lnkgnr';
