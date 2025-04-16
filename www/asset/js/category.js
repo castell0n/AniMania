@@ -4,9 +4,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.querySelector(".search");
     const container = document.getElementById("container");
     
-    // Obtener categoría desde la URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const categoria = decodeURIComponent(urlParams.get('dtcat')) || "Todas";
+    // // Obtener categoría desde la URL
+    // const urlParams = new URLSearchParams(window.location.search);
+    // const categoria = decodeURIComponent(urlParams.get('dtcat')) || "Todas";
+
+    const categoria = localStorage.getItem("dtcat") || "Todas";
+    alert("La categoría seleccionada es: " + categoria);
 
     // Mensaje de no resultados
     const noResultsMessage = document.createElement("h2");
