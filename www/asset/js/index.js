@@ -57,7 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
             // Redirigir al detalle del anime al hacer clic
             card.addEventListener("click", function () {
                 const animeId = encodeURIComponent(anime.id);
-                window.location.href = `view/index.html?dtId=${animeId}`;
+                // window.location.href = `view/index.html?dtId=${animeId}`;
+                localStorage.setItem("dtId", animeId); // Guardar el ID del anime en localStorage
+                window.location.href = `go:view`;
             });
 
             // Añadir la tarjeta al contenedor grid
