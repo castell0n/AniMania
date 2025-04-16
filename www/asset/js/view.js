@@ -268,7 +268,9 @@ function loadCaps(datadetails, episodes) {
             card.addEventListener('click', () => {
                 const link = card.getAttribute("data-link");
                 if (link) {
-                    location.href = `player.html?vidlink=${link}`;
+                    // location.href = `player.html?vidlink=${link}`;
+                    localStorage.setItem("vidlink", link); // Guardar el enlace en localStorage
+                    window.location.href = `go:player`; // Redirigir a la página del reproductor
                 } else {
                     console.error("El enlace no está disponible.");
                 }
