@@ -45,7 +45,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Redirigir al detalle
             card.addEventListener("click", () => {
-                window.location.href = `../view/index.html?dtId=${encodeURIComponent(anime.id)}`;
+                const animeId = encodeURIComponent(anime.id);
+                // window.location.href = `../view/index.html?dtId=${encodeURIComponent(anime.id)}`;
+                localStorage.setItem("dtId", animeId); // Guardar el ID del anime en localStorage
+                window.location.href = `go:view`;
             });
 
             grid.appendChild(card);
