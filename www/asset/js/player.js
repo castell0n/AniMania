@@ -4,12 +4,14 @@
 
 const vidlink = localStorage.getItem("vidlink") || "Todas";
 
-const iframe = document.createElement("iframe");
-iframe.src = vidlink;
-iframe.width = "100%";
-iframe.height = "100%";
-iframe.frameBorder = "0";
-iframe.allowFullscreen = false;
-iframe.style.overflow = "hidden";
+var player = new Playerjs({id:"player", file:vidlink});
 
-document.getElementById("iframeContainer").appendChild(iframe);
+// const iframe = document.createElement("iframe");
+// iframe.src = vidlink;
+// iframe.width = "100%";
+// iframe.height = "100%";
+// iframe.frameBorder = "0";
+// iframe.allowFullscreen = false;
+// iframe.style.overflow = "hidden";
+
+// document.getElementById("iframeContainer").appendChild(iframe);
