@@ -22,6 +22,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const retryBtn = document.getElementById('retry-btn');
     const notification = document.getElementById('notification');
     
+    // Crear botón de landscape
+    const landscapeBtn = document.createElement('button');
+    landscapeBtn.className = 'control-btn landscape-btn';
+    landscapeBtn.title = 'Orientación Landscape';
+    landscapeBtn.innerHTML = '<i class="fas fa-mobile-alt"></i>';
+    const rightControls = document.querySelector('.right-controls');
+    rightControls.insertBefore(landscapeBtn, settingsBtn);
+    
     // Variables para controlar la visibilidad de los controles
     let controlsTimeout;
     const CONTROLS_HIDE_DELAY = 3000; // 3 segundos
@@ -36,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     hideControls();
 
     video.src = vidlink;
-    
+
     // Eventos para mostrar/ocultar controles
     videoContainer.addEventListener('mouseenter', () => {
         isMouseOverVideo = true;
@@ -45,16 +53,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     videoContainer.addEventListener('mouseleave', () => {
         isMouseOverVideo = false;
-        // No ocultar inmediatamente, el timeout se encargará
     });
     
     // Detectar movimiento del mouse en todo el documento
     document.addEventListener('mousemove', (e) => {
-        // Solo nos interesa si el mouse está sobre el video
         if (isMouseOverVideo) {
             showControlsTemporarily();
             
-            // Resetear el temporizador de inactividad
             clearTimeout(mouseMoveTimer);
             mouseMoveTimer = setTimeout(() => {
                 if (!video.paused) {
@@ -82,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showControlsTemporarily();
     }
     
-    // Actualizar icono de play/pause cuando el video se pausa por otros medios
+    // Actualizar icono de play/pause
     video.addEventListener('play', function() {
         playBtn.innerHTML = '<i class="fas fa-pause"></i>';
         bigPlayBtn.style.display = 'none';
@@ -92,13 +97,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     video.addEventListener('pause', function() {
-        // Solo cambiar a play si no estamos en estado de buffering
         if (!isBuffering) {
             playBtn.innerHTML = '<i class="fas fa-play"></i>';
             bigPlayBtn.style.display = 'flex';
             videoContainer.classList.add('paused');
         }
-        showControls(); // Mantener controles visibles cuando está pausado
+        showControls();
     });
     
     // Retroceder 10 segundos
@@ -115,10 +119,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const percent = (video.currentTime / video.duration) * 100;
         progressBar.style.width = `${percent}%`;
         
-        // Actualizar tiempos
         currentTimeElement.textContent = formatTime(video.currentTime);
         
-        // Solo actualizar la duración si ya está disponible
         if (!isNaN(video.duration)) {
             durationElement.textContent = formatTime(video.duration);
         }
@@ -132,8 +134,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Click en la barra de progreso para saltar
     progressContainer.addEventListener('click', function(e) {
-        const width = this.clientWidth;
-        const clickX = e.offsetX;
+        const rect = this.getBoundingClientRect();
+        const isLandscape = videoContainer.classList.contains('landscape');
+        
+        let clickX;
+        if (isLandscape) {
+            clickX = e.clientY - rect.top;
+        } else {
+            clickX = e.clientX - rect.left;
+        }
+        
+        const width = isLandscape ? rect.height : rect.width;
         const duration = video.duration;
         video.currentTime = (clickX / width) * duration;
         showNotification("Saltando a " + formatTime(video.currentTime));
@@ -142,13 +153,32 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mostrar tiempo al pasar el mouse sobre la barra de progreso
     progressContainer.addEventListener('mousemove', function(e) {
-        const width = this.clientWidth;
-        const clickX = e.offsetX;
+        const rect = this.getBoundingClientRect();
+        const isLandscape = videoContainer.classList.contains('landscape');
+        
+        let clickX;
+        if (isLandscape) {
+            clickX = e.clientY - rect.top;
+        } else {
+            clickX = e.clientX - rect.left;
+        }
+        
+        const width = isLandscape ? rect.height : rect.width;
         const duration = video.duration;
         const previewTime = (clickX / width) * duration;
         
         progressTime.textContent = formatTime(previewTime);
-        progressTime.style.left = `${clickX - 20}px`;
+        
+        if (isLandscape) {
+            progressTime.style.top = `${clickX - 20}px`;
+            progressTime.style.left = 'auto';
+            progressTime.style.right = '0';
+        } else {
+            progressTime.style.left = `${clickX - 20}px`;
+            progressTime.style.top = 'auto';
+            progressTime.style.right = 'auto';
+        }
+        
         progressTime.style.display = 'block';
     });
     
@@ -171,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Ajustes (velocidad)
     settingsBtn.addEventListener('click', function(e) {
-        e.stopPropagation(); // Evitar que el evento se propague y cierre inmediatamente
+        e.stopPropagation();
         settingsMenu.classList.toggle('show');
         showControlsTemporarily();
     });
@@ -188,13 +218,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const speed = parseFloat(this.getAttribute('data-speed'));
             video.playbackRate = speed;
             
-            // Actualizar opción activa
             speedOptions.forEach(opt => opt.classList.remove('active'));
             this.classList.add('active');
             
             showNotification("Velocidad: " + speed + "x");
-            
-            // Cerrar menú después de seleccionar
             settingsMenu.classList.remove('show');
             showControlsTemporarily();
         });
@@ -216,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showControlsTemporarily();
     }
     
-    // Actualizar duración cuando el video esté listo
+    // Actualizar duración
     video.addEventListener('loadedmetadata', function() {
         durationElement.textContent = formatTime(video.duration);
     });
@@ -269,8 +296,6 @@ document.addEventListener('DOMContentLoaded', function() {
     retryBtn.addEventListener('click', function() {
         hideError();
         loadingSpinner.style.display = 'block';
-        
-        // Forzar recarga del video
         video.load();
         
         if (wasPlayingBeforeError) {
@@ -281,6 +306,36 @@ document.addEventListener('DOMContentLoaded', function() {
         
         showControlsTemporarily();
     });
+    
+    // Orientación Landscape
+    landscapeBtn.addEventListener('click', toggleLandscape);
+    
+    function toggleLandscape() {
+        videoContainer.classList.toggle('landscape');
+        document.body.classList.toggle('landscape');
+        
+        if (videoContainer.classList.contains('landscape')) {
+            landscapeBtn.innerHTML = '<i class="fas fa-desktop"></i>';
+            landscapeBtn.title = 'Orientación Normal';
+            showNotification("Modo Landscape activado");
+        } else {
+            landscapeBtn.innerHTML = '<i class="fas fa-mobile-alt"></i>';
+            landscapeBtn.title = 'Orientación Landscape';
+            showNotification("Modo Normal activado");
+        }
+        
+        setTimeout(() => {
+            if (videoContainer.classList.contains('landscape')) {
+                video.style.width = 'auto';
+                video.style.height = '100%';
+            } else {
+                video.style.width = '100%';
+                video.style.height = 'auto';
+            }
+        }, 10);
+        
+        showControlsTemporarily();
+    }
     
     // Mostrar/ocultar errores
     function showError(message) {
