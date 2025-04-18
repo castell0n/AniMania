@@ -12,15 +12,15 @@ body {
   align-items: center;
   min-height: 100vh;
   color: white;
+  transition: all 0.3s;
 }
 
 .video-container {
-  width: 100vh;
+  width: 800px;
   position: relative;
   background: #000;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  transform: rotate(90deg);
 }
 
 video {
@@ -266,4 +266,68 @@ video {
 
 .big-play-btn:hover {
   background: rgba(0, 0, 0, 0.8);
+}
+
+/* Orientación Landscape */
+.video-container.landscape {
+  width: 100vh;
+  height: 100vw;
+  transform-origin: 0 0;
+  transform: rotate(90deg) translateY(-100%);
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+/* Ajustar body para landscape */
+body.landscape {
+  overflow: hidden;
+  transform: rotate(0deg);
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Ajustar controles para landscape */
+.video-container.landscape .video-controls {
+  transform: none;
+  bottom: auto;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 15px 15px;
+}
+
+/* Ajustar el menú de ajustes para landscape */
+.video-container.landscape .settings-menu {
+  bottom: auto;
+  top: 4.65em;
+  right: 0;
+  border-radius: 0 0 0 0.5em;
+}
+
+/* Ajustar notificación para landscape */
+.video-container.landscape .notification {
+  top: auto;
+  bottom: 10px;
+}
+
+/* Ajustar big play button para landscape */
+.video-container.landscape .big-play-btn {
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+/* Ajustar el video para landscape */
+.video-container.landscape video {
+  height: 100%;
+  width: auto;
+}
+
+/* Estilo para el botón de landscape */
+.landscape-btn {
+  margin-left: 10px;
+}
+
+/* Ajustar icono en modo landscape */
+.video-container.landscape .landscape-btn i {
+  transform: rotate(-90deg);
 }
