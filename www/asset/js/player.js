@@ -1,31 +1,90 @@
-// const player = document.getElementById("player");
-// const videopreview = document.getElementById("videopreview");
-// const vidlink = localStorage.getItem("vidlink") || "Todas";
-
-// videopreview.style.backgroundImage = `url(https://raw.githubusercontent.com/Ahmetaksungur/twitter-video-player-clone/master/92456705_506989316849451_7379405183454806542_n.jpg)`;
-// player.innerHTML = `<source id="datasrc" src="https://pixeldrain.com/api/file/gxQJoZbR" type="video/mp4"`;
-
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Controls (as seen below) works in such a way that as soon as you explicitly define (add) one control
-    // to the settings, ALL default controls are removed and you have to add them back in by defining those below.
-
-    // For example, let's say you just simply wanted to add 'restart' to the control bar in addition to the default.
-    // Once you specify *just* the 'restart' property below, ALL of the controls (progress bar, play, speed, etc) will be removed,
-    // meaning that you MUST specify 'play', 'progress', 'speed' and the other default controls to see them again.
-
+    // Obtener el enlace del video desde localStorage o usar uno por defecto
+    const vidlink = localStorage.getItem("vidlink") || "https://pixeldrain.com/api/file/gxQJoZbR";
+    
+    // Configuración de controles
     const controls = [
-        'play-large', // The large play button in the center
-        'play', // Play/pause playback
-        'progress', // The progress bar and scrubber for playback and buffering
-        'current-time', // The current time of playback
-        'duration', // The full duration of the media
-        'mute', // Toggle mute
-        'fullscreen' // Toggle fullscreen
+        'play-large',
+        'restart',
+        'play',
+        'progress',
+        'current-time',
+        'duration',
+        'mute',
+        'volume',
+        'settings',
+        'fullscreen'
     ];
 
-    const player = Plyr.setup('.js-player', { controls });
+    // Opciones del reproductor
+    const playerOptions = {
+        controls,
+        ratio: '16:9',
+        settings: ['quality', 'speed'],
+        storage: { enabled: true, key: 'plyr' },
+        fullscreen: { enabled: true, fallback: true, iosNative: true }
+    };
 
+    // Inicializar el reproductor
+    const player = new Plyr('#player', playerOptions);
+    
+    // Establecer la fuente del video
+    player.source = {
+        type: 'video',
+        sources: [{
+            src: vidlink,
+            type: 'video/mp4'
+        }],
+        poster: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg'
+    };
+
+    // Elementos del DOM
+    const landscapeMessage = document.getElementById('landscape-message');
+    const container = document.querySelector('.container');
+
+    // Función para verificar orientación
+    function checkOrientation() {
+        if (window.innerHeight > window.innerWidth) {
+            landscapeMessage.style.display = 'flex';
+        } else {
+            landscapeMessage.style.display = 'none';
+        }
+    }
+
+    // Forzar landscape en dispositivos que lo permitan
+    function tryForceLandscape() {
+        if (screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape').catch(error => {
+                console.log('No se pudo bloquear la orientación:', error);
+                checkOrientation();
+            });
+        } else {
+            checkOrientation();
+        }
+    }
+
+    // Evento cuando el reproductor está listo
+    player.on('ready', event => {
+        console.log('Reproductor listo');
+        tryForceLandscape();
+        
+        // Intentar entrar en pantalla completa (puede ayudar en algunos dispositivos)
+        setTimeout(() => {
+            player.fullscreen.enter().catch(e => console.log('Pantalla completa no disponible:', e));
+        }, 1000);
+    });
+
+    // Reproducir automáticamente si es posible
+    player.on('loadeddata', () => {
+        player.play().catch(e => console.log('Autoplay no permitido:', e));
+    });
+
+    // Manejar cambios de orientación
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', () => {
+        setTimeout(checkOrientation, 500);
+    });
+
+    // Verificar orientación inicial
+    checkOrientation();
 });
